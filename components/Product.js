@@ -1,12 +1,15 @@
 import { ProductWrapper } from '../styles/ProductWrapper';
+import Link from 'next/link';
 
 export default function Product({ product }) {
-  const { title, price, image } = product.attributes;
+  const { title, price, image, slug } = product.attributes;
   return (
     <ProductWrapper>
-      <div>
-        <img src={image.data.attributes.formats.small.url} alt={title} />
-      </div>
+      <Link href={`/product/${slug}`}>
+        <div>
+          <img src={image.data.attributes.formats.small.url} alt={title} />
+        </div>
+      </Link>
       <h2>{title}</h2>
       <h3>{price}</h3>
     </ProductWrapper>
