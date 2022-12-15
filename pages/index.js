@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useQuery } from 'urql';
+import Product from '../components/Product';
 import { PRODUCT_QUERY } from '../lib/query';
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
   //check for data coming in
   if (fetching) return <p>Loading...</p>;
   if (error) return <p>Oh no... {error.message}</p>;
-  console.log(data);
+  const products = data.products.data;
 
   return (
     <div>
@@ -22,6 +23,9 @@ export default function Home() {
 
       <main>
         <h1>Hello NExt</h1>
+        {products.map((product) => (
+          <Product product={product} key={product.attributes.slug} />
+        ))}
       </main>
     </div>
   );
