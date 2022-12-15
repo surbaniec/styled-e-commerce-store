@@ -8,8 +8,11 @@ import {
   BuyButtonWrapper,
 } from '../../styles/ProductDetailsWrapper';
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
+import { useShopContext } from '../../context/ShopContext';
 
 export default function ProductDetails() {
+  const { quantity, increaseQuantity, decreaseQuantity } = useShopContext();
+
   //Fetch slug
   const { query } = useRouter();
 
@@ -34,10 +37,10 @@ export default function ProductDetails() {
         <QuantityWrapper>
           <span>Quantity</span>
           <button>
-            <AiFillMinusCircle />
+            <AiFillMinusCircle onClick={decreaseQuantity} />
           </button>
-          <p>0</p>
-          <button>
+          <p>{quantity}</p>
+          <button onClick={increaseQuantity}>
             <AiFillPlusCircle />
           </button>
         </QuantityWrapper>
