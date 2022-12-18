@@ -3,6 +3,9 @@ import {
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
   ADD_TO_CART,
+  SHOW_CART,
+  HIDE_CART,
+  REMOVE_PRODUCT,
 } from '../reducers/actions';
 import { shop_reducer } from '../reducers/shop_reducer';
 
@@ -32,9 +35,29 @@ export const ShopProvider = ({ children }) => {
     dispatch({ type: ADD_TO_CART, payload: product });
   };
 
+  const openCart = () => {
+    dispatch({ type: SHOW_CART });
+  };
+
+  const closeCart = () => {
+    dispatch({ type: HIDE_CART });
+  };
+
+  const removeProduct = (product) => {
+    dispatch({ type: REMOVE_PRODUCT, payload: product });
+  };
+
   return (
     <ShopContext.Provider
-      value={{ ...state, increaseQuantity, decreaseQuantity, addToCart }}
+      value={{
+        ...state,
+        increaseQuantity,
+        decreaseQuantity,
+        addToCart,
+        removeProduct,
+        openCart,
+        closeCart,
+      }}
     >
       {children}
     </ShopContext.Provider>

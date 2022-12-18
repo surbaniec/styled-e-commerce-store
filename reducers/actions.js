@@ -1,3 +1,6 @@
 export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
 export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 export const ADD_TO_CART = 'ADD_TO_CART';
+export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
+export const SHOW_CART = 'SHOW_CART';
+export const HIDE_CART = 'HIDE_CART';
