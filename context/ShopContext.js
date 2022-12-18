@@ -13,6 +13,8 @@ const initialState = {
   quantity: 1,
   showCart: false,
   cartItems: [],
+  totalQuantities: 0,
+  totalPrice: 0,
 };
 
 const ShopContext = createContext();

@@ -35,12 +35,21 @@ export const shop_reducer = (state, action) => {
       if (exist) {
         const tempCart = state.cartItems.map((cartItem) => {
           if (cartItem.slug === action.payload.slug) {
-            return { ...exist, quantity: exist.quantity + state.quantity };
+            return {
+              ...exist,
+              quantity: exist.quantity + state.quantity,
+            };
           } else {
             return cartItem;
           }
         });
-        return { ...state, cartItems: tempCart };
+        return {
+          ...state,
+          cartItems: tempCart,
+          totalQuantities: state.totalQuantities + state.quantity,
+          totalPrice: state.totalPrice + action.payload.price * state.quantity,
+          quantity: 1,
+        };
       } else {
         const newItem = {
           ...action.payload,
@@ -49,6 +58,8 @@ export const shop_reducer = (state, action) => {
         return {
           ...state,
           cartItems: [...state.cartItems, newItem],
+          totalQuantities: state.totalQuantities + state.quantity,
+          totalPrice: state.totalPrice + action.payload.price * state.quantity,
           quantity: 1,
         };
       }
@@ -61,6 +72,8 @@ export const shop_reducer = (state, action) => {
         return {
           ...state,
           cartItems: state.cartItems.filter((item) => item.slug !== exist.slug),
+          totalQuantities: state.totalQuantities - 1,
+          totalPrice: state.totalPrice - action.payload.price,
         };
       } else if (exist.quantity > 1) {
         const tempCart = state.cartItems.map((cartItem) => {
@@ -70,7 +83,12 @@ export const shop_reducer = (state, action) => {
             return cartItem;
           }
         });
-        return { ...state, cartItems: tempCart };
+        return {
+          ...state,
+          cartItems: tempCart,
+          totalQuantities: state.totalQuantities - 1,
+          totalPrice: state.totalPrice - action.payload.price,
+        };
       }
     }
 
