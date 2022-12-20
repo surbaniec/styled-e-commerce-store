@@ -9,6 +9,7 @@ import {
 } from '../../styles/ProductDetailsWrapper';
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import { useShopContext } from '../../context/ShopContext';
+import { toast } from 'react-hot-toast';
 
 export default function ProductDetails() {
   const { quantity, increaseQuantity, decreaseQuantity, addToCart } =
@@ -29,6 +30,11 @@ export default function ProductDetails() {
 
   const { title, description, image } = data.products.data[0].attributes;
 
+  //Create a toast
+  const notify = () => {
+    toast.success('Product added to the cart');
+  };
+
   return (
     <ProductDetailsWrapper>
       <img src={image.data.attributes.formats.medium.url} alt={title} />
@@ -46,7 +52,10 @@ export default function ProductDetails() {
           </button>
         </QuantityWrapper>
         <BuyButtonWrapper
-          onClick={() => addToCart(data.products.data[0].attributes)}
+          onClick={() => {
+            addToCart(data.products.data[0].attributes);
+            notify();
+          }}
         >
           Add to cart
         </BuyButtonWrapper>
