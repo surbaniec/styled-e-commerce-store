@@ -5,7 +5,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 export default function User() {
   const route = useRouter();
-  const { user } = useUser();
+  const { user, error, isLoading } = useUser();
 
   if (!user) {
     return (
@@ -14,12 +14,11 @@ export default function User() {
         <h3>Profile</h3>
       </div>
     );
-  } else {
-    return (
-      <UserWrapper onClick={() => route.push('/profile')}>
-        <img src={user.picture} alt={user.name} />
-        <h3>{user.name}</h3>
-      </UserWrapper>
-    );
   }
+  return (
+    <UserWrapper onClick={() => route.push('/profile')}>
+      <img src={user.picture} alt={user.name} />
+      <h3>{user.name}</h3>
+    </UserWrapper>
+  );
 }

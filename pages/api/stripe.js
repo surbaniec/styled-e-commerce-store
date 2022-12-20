@@ -3,9 +3,8 @@ const stripe = new Stripe(`${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY}`);
 import { getSession } from '@auth0/nextjs-auth0';
 
 export default async function handler(req, res) {
-  const session = getSession(req, res);
+  const session = await getSession(req, res);
   const user = session?.user;
-  console.log(user);
   if (user) {
     const stripeId = user['http://localhost:3000/stripe_customer_id'];
     if (req.method === 'POST') {
@@ -17,27 +16,18 @@ export default async function handler(req, res) {
           payment_method_types: ['card'],
           customer: stripeId,
           shipping_address_collection: {
-            allowed_countries: ['US', 'CA'],
+            allowed_countries: ['PL'],
           },
-
-          allow_promotion_codes: true,
-          shipping_options: [
-            { shipping_rate: 'shr_1L7HGSJvB7fsxaM1DbSs7DeV' },
-            { shipping_rate: 'shr_1L7HGyJvB7fsxaM1OpMXx2Fn' },
-          ],
+          shipping_options: [{ shipping_rate: 'shr_1MGnbcGNAlTspaLnarHCue0W' }],
           line_items: req.body.map((item) => {
             return {
               price_data: {
-                currency: 'usd',
+                currency: 'pln',
                 product_data: {
                   name: item.title,
                   images: [item.image.data.attributes.formats.thumbnail.url],
                 },
                 unit_amount: item.price * 100,
-              },
-              adjustable_quantity: {
-                enabled: true,
-                minimum: 1,
               },
               quantity: item.quantity,
             };
@@ -65,8 +55,6 @@ export default async function handler(req, res) {
           shipping_address_collection: {
             allowed_countries: ['PL'],
           },
-
-          allow_promotion_codes: true,
           shipping_options: [{ shipping_rate: 'shr_1MGnbcGNAlTspaLnarHCue0W' }],
           line_items: req.body.map((item) => {
             return {
@@ -77,10 +65,6 @@ export default async function handler(req, res) {
                   images: [item.image.data.attributes.formats.thumbnail.url],
                 },
                 unit_amount: item.price * 100,
-              },
-              adjustable_quantity: {
-                enabled: true,
-                minimum: 1,
               },
               quantity: item.quantity,
             };
