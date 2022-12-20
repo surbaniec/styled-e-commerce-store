@@ -5,6 +5,7 @@ const stripe = require('stripe')(
 import { getSession } from '@auth0/nextjs-auth0';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { ProfileWrapper } from '../styles/ProfileWrapper';
+import { formatMoney } from '../lib/formatMoney';
 
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
@@ -31,7 +32,7 @@ export default function Profile({ user, orders }) {
             <ProfileWrapper key={order.id}>
               <div>
                 <h1>Order Number: {order.id}</h1>
-                <h2>Amount: {order.amount}</h2>
+                <h2>Amount: {formatMoney(order.amount)}</h2>
               </div>
               <div>
                 <h1>Receipt Email: {user.email}</h1>
